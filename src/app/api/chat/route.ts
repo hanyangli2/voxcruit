@@ -8,26 +8,41 @@ const openai = new OpenAI({
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages, problemId } = await req.json()
-    
+    const { messages, problem, code } = await req.json()
+
     // You could add problem-specific context here based on problemId
+    const systemPrompt = `
+    You are an experienced technical interviewer at a top tech company. 
+    The candidate is solving a problem: "${problem}".
     
+    Here is their current code (which may be incomplete):
+    \`\`\`
+    ${code || 'No code submitted yet.'}
+    \`\`\`
+    
+    Your job is to help the candidate think through the problem:
+    - Ask clarifying questions about their approach
+    - Explore edge cases they may have missed
+    - Challenge their assumptions about time and space complexity
+    - Do NOT give the full solution. Act like a human interviewer.
+    `
+    // Call OpenAI API 
     const response = await openai.chat.completions.create({
       model: "gpt-4-turbo", // or your preferred model
       messages: [
         {
           role: "system",
-          content: "You are an experienced technical interviewer helping a candidate solve a coding problem. Ask probing questions about their approach, time and space complexity, edge cases, and guide them toward a solution without giving away the answer immediately. Act like a real interviewer at a top tech company."
+          content: systemPrompt
         },
         ...messages
       ],
       temperature: 0.7,
     })
-    
-    return NextResponse.json({ 
-      message: response.choices[0].message.content 
+
+    return NextResponse.json({
+      message: response.choices[0].message.content
     })
-    
+
   } catch (error) {
     console.error('Error calling OpenAI:', error)
     return NextResponse.json(

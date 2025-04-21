@@ -5,6 +5,7 @@ import { useParams, useSearchParams } from 'next/navigation'
 import CodeEditor from '@/components/CodeEditor'
 import { XMarkIcon, ArrowPathIcon, PlayIcon } from '@heroicons/react/24/outline'
 import { getProblemById } from '@/data/problems'
+import ChatInterface from '@/components/ChatInterface'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -22,6 +23,7 @@ export default function InterviewPage() {
   const [isRunning, setIsRunning] = useState(false)
   const [showInterviewer, setShowInterviewer] = useState(true)
   
+  const [showChat, setShowChat] = useState(true)
   const problem = getProblemById(problemId)
   
   // Initialize code editor with starter code
@@ -134,39 +136,9 @@ export default function InterviewPage() {
           </div>
           
           {/* Interviewer Panel */}
-          {showInterviewer && (
-            <div className="h-64 border-t border-slate-700 bg-slate-800 flex">
-              <div className="w-1/4 p-4 border-r border-slate-700 flex items-center justify-center bg-slate-900">
-                <div className="relative w-32 h-32 rounded-full bg-blue-900 flex items-center justify-center">
-                  {/* This would be a real interviewer image/avatar */}
-                  <span className="text-4xl font-bold text-blue-200">
-                    {interviewerId[0]?.toUpperCase()}
-                  </span>
-                  <button 
-                    onClick={() => setShowInterviewer(false)}
-                    className="absolute -top-2 -right-2 bg-slate-700 rounded-full p-1 shadow text-white hover:bg-slate-600"
-                  >
-                    <XMarkIcon className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-              
-              <div className="flex-1 p-4 overflow-auto">
-                {messages.map((message, index) => (
-                  <div key={index} className="mb-3">
-                    {message.role === 'assistant' && (
-                      <div className="font-medium text-blue-400 mb-1">Interviewer:</div>
-                    )}
-                    <div className={`p-3 rounded-lg ${
-                      message.role === 'assistant' 
-                        ? 'bg-slate-700 text-slate-200' 
-                        : 'bg-blue-900 text-blue-100'
-                    }`}>
-                      {message.content}
-                    </div>
-                  </div>
-                ))}
-              </div>
+          {showChat && (
+            <div className="bg-slate-800 border-t border-slate-700 p-4 flex-1 overflow-y-auto">
+              <ChatInterface problem={problem?.title || ''} code={code} />
             </div>
           )}
         </div>
