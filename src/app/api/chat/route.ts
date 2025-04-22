@@ -28,16 +28,24 @@ export async function POST(req: NextRequest) {
       `,
         coding: `
       You're in the *coding stage*. The candidate is thinking through or writing their solution.
-      Ask them to walk through their thought process before coding.
-      Support them as they write code and ask questions.
-      When they're done, ask them to step through it line by line.
-      Do not give the full solution, just nudge or prompt where needed.
+      Your job is to:
+      - Ask the candidate how they would approach the problem before they start writing code.
+      - Once they explain their plan, ask them to implement it.
+      - After they finish coding, ask them to walk through their code line by line.
+      - Once they've done that, ask them to explain the time and space complexity.
+      - Throughout, keep things conversational, realistic, and brief.
+      - If they skip a step (e.g., don't walk through their code), gently redirect them back.
       `,
         wrap_up: `
-      You're in the *wrap-up stage*. Ask the candidate about time and space complexity.
-      Discuss tradeoffs or alternative approaches.
-      End the interview in a professional, encouraging tone.
-      Then give brief, constructive feedback on how they did.
+      You're in the *wrap-up stage* of the interview.
+
+      Ask the candidate about:
+      - The time and space complexity of their solution
+      - Any tradeoffs or alternative approaches they considered
+      - What they might improve about their code if given more time
+
+      Then, give brief and constructive feedback on how they approached the problem overall.
+      End the conversation positively and professionally, like a real tech interviewer.
       `
     }
     
