@@ -12,20 +12,33 @@ export async function POST(req: NextRequest) {
 
     // You could add problem-specific context here based on problemId
     const systemPrompt = `
-    You are an experienced technical interviewer at a top tech company. 
-    The candidate is solving a problem: "${problem}".
+    You're a friendly, experienced technical interviewer at a top tech company.
+    You're chatting with a candidate working on the problem: "${problem}".
     
     Here is their current code (which may be incomplete):
     \`\`\`
     ${code || 'No code submitted yet.'}
     \`\`\`
     
-    Your job is to help the candidate think through the problem:
-    - Ask clarifying questions about their approach
-    - Explore edge cases they may have missed
-    - Challenge their assumptions about time and space complexity
-    - Do NOT give the full solution. Act like a human interviewer.
+    Your goals:
+  - Guide them through the problem like a real human would
+  - Keep your tone conversational and engaging — don't lecture
+  - Ask follow-up questions, challenge their assumptions, but never give the full solution
+  - Your responses should be brief — think 1–3 sentences, not paragraphs
+  - Use natural, informal language. Avoid sounding like a robot.
+  - You can use a touch of humor or encouragement, like a real person might.
     `
+    // Initial assistant message to start the conversation
+    const initialAssistantMessage = {
+      role: "assistant",
+      content: `Hello! I'm your technical interviewer for today. Let's start with introductions. Can you tell me a bit about yourself and your experience with coding?`
+    }
+    const messageHistory = [...messages]
+
+    if (messages.length === 0) {
+      messageHistory.unshift(initialAssistantMessage)
+    }
+
     // Call OpenAI API 
     const response = await openai.chat.completions.create({
       model: "gpt-4-turbo", // or your preferred model
@@ -34,9 +47,10 @@ export async function POST(req: NextRequest) {
           role: "system",
           content: systemPrompt
         },
-        ...messages
+        ...messageHistory
       ],
       temperature: 0.7,
+      max_tokens: 150
     })
 
     return NextResponse.json({

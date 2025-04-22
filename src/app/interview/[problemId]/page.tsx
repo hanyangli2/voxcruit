@@ -30,14 +30,6 @@ export default function InterviewPage() {
   useEffect(() => {
     if (problem) {
       setCode(problem.starterCode)
-      
-      // Simulate initial message from interviewer
-      setTimeout(() => {
-        setMessages([{
-          role: 'assistant',
-          content: `Hi there! I'm your interviewer today. Let's work on the "${problem.title}" problem. Could you start by explaining how you understand the problem?`
-        }])
-      }, 1000)
     }
   }, [problem])
   

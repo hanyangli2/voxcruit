@@ -24,6 +24,35 @@ export default function ChatInterface({ problem, code }: ChatInterfaceProps) {
     }
 
     useEffect(scrollToBottom, [messages])
+      // Automatically start the conversation when the component loads
+    useEffect(() => {
+        const startConversation = async () => {
+        if (messages.length === 0) {
+            try {
+            const res = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                messages: [], // empty triggers intro in backend
+                problem,
+                code,
+                }),
+            })
+
+            const data = await res.json()
+            const assistantMessage: Message = { role: 'assistant', content: data.message }
+            setMessages([assistantMessage])
+            } catch (error) {
+            console.error('Failed to start conversation:', error)
+            setMessages([
+                { role: 'assistant', content: 'Sorry, I had trouble starting the conversation.' },
+            ])
+            }
+        }
+        }
+
+    startConversation()
+  }, []) // only run once on mount
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
