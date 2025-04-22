@@ -38,7 +38,6 @@ export async function POST(req: NextRequest) {
       `,
         wrap_up: `
       You're in the *wrap-up stage* of the interview.
-
       Ask the candidate about:
       - The time and space complexity of their solution
       - Any tradeoffs or alternative approaches they considered
