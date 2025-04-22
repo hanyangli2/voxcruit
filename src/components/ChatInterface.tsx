@@ -12,9 +12,10 @@ interface Message {
 interface ChatInterfaceProps {
     problem: string 
     code: string
+    stage: string
 }
 
-export default function ChatInterface({ problem, code }: ChatInterfaceProps) {
+export default function ChatInterface({ problem, code, stage }: ChatInterfaceProps) {
     const [messages, setMessages] = useState<Message[]>([])
     const [input, setInput] = useState('')
     const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -33,9 +34,10 @@ export default function ChatInterface({ problem, code }: ChatInterfaceProps) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                messages: [], // empty triggers intro in backend
-                problem,
-                code,
+                    messages: [], // empty triggers intro in backend
+                    problem,
+                    code,
+                    stage,
                 }),
             })
 
@@ -52,7 +54,7 @@ export default function ChatInterface({ problem, code }: ChatInterfaceProps) {
         }
 
     startConversation()
-  }, []) // only run once on mount
+  }, [problem, code, stage]) // only run once on mount
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -72,6 +74,7 @@ export default function ChatInterface({ problem, code }: ChatInterfaceProps) {
                     messages: updatedMessages, 
                     problem,
                     code,
+                    stage,
                 }),
             })
         

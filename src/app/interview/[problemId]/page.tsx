@@ -25,6 +25,8 @@ export default function InterviewPage() {
   
   const [showChat, setShowChat] = useState(true)
   const problem = getProblemById(problemId)
+  const [stage, setStage] = useState('intro')
+
   
   // Initialize code editor with starter code
   useEffect(() => {
@@ -80,6 +82,15 @@ export default function InterviewPage() {
             }`}>
               {problem?.difficulty || 'Unknown'}
             </span>
+            <select
+              className="bg-slate-700 text-white p-1 rounded text-sm"
+              value={stage}
+              onChange={(e) => setStage(e.target.value)}
+            >
+              <option value="intro">Intro</option>
+              <option value="coding">Coding</option>
+              <option value="wrap_up">Wrap Up</option>
+            </select>
           </div>
         </div>
       </header>
@@ -130,7 +141,7 @@ export default function InterviewPage() {
           {/* Interviewer Panel */}
           {showChat && (
             <div className="bg-slate-800 border-t border-slate-700 p-4 flex-1 overflow-y-auto">
-              <ChatInterface problem={problem?.title || ''} code={code} />
+              <ChatInterface problem={problem?.title || ''} code={code} stage={stage} />
             </div>
           )}
         </div>
