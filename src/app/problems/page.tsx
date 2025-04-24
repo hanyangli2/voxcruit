@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { problems, Problem } from '@/data/problems'
+import { problems  } from '@/data/problems'
 
 type Difficulty = 'Easy' | 'Medium' | 'Hard' | ''
 

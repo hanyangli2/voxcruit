@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, } from 'react'
 import { useParams, useSearchParams } from 'next/navigation'
 import CodeEditor from '@/components/CodeEditor'
-import { XMarkIcon, ArrowPathIcon, PlayIcon } from '@heroicons/react/24/outline'
+import {  ArrowPathIcon, PlayIcon } from '@heroicons/react/24/outline'
 import { getProblemById } from '@/data/problems'
 import ChatInterface from '@/components/ChatInterface'
 
@@ -16,13 +16,13 @@ export default function InterviewPage() {
   const params = useParams()
   const searchParams = useSearchParams()
   const problemId = params.problemId as string
-  const interviewerId = searchParams.get('interviewer') || 'alex'
+  // const interviewerId = searchParams.get('interviewer') || 'alex'
   
   const [code, setCode] = useState('')
   const [messages, setMessages] = useState<Message[]>([])
   const [isRunning, setIsRunning] = useState(false)
-  const [showInterviewer, setShowInterviewer] = useState(true)
-  
+  // const [showInterviewer, setShowInterviewer] = useState(true)
+  console.log(messages) 
   const [showChat, setShowChat] = useState(true)
   const problem = getProblemById(problemId)
   const [stage, setStage] = useState('intro')
@@ -30,6 +30,7 @@ export default function InterviewPage() {
   
   // Initialize code editor with starter code
   useEffect(() => {
+    setShowChat(true)
     if (problem) {
       setCode(problem.starterCode)
     }

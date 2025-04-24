@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       Respond like a real interviewer — short, friendly, curious.
       Don't lecture or front-load too much info at once.
       `,
-        coding: `
+      coding: `
       You're in the *coding stage*. The candidate is thinking through or writing their solution.
       Your job is to:
       - Ask the candidate how they would approach the problem before they start writing code.
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
       - Throughout, keep things conversational, realistic, and brief.
       - If they skip a step (e.g., don't walk through their code), gently redirect them back.
       `,
-        wrap_up: `
+      wrap_up: `
       You're in the *wrap-up stage* of the interview.
       Ask the candidate about:
       - The time and space complexity of their solution
@@ -47,9 +47,9 @@ export async function POST(req: NextRequest) {
       End the conversation positively and professionally, like a real tech interviewer.
       `
     }
-    
+
     const dynamicInstructions = stageInstructions[stage] || stageInstructions.intro
-    
+
     // You could add problem-specific context here based on problemId
     const systemPrompt = `
       You're a friendly, experienced technical interviewer at a top tech company.
@@ -71,10 +71,10 @@ export async function POST(req: NextRequest) {
       - You can use a touch of humor or encouragement, like a real person might.
       `
     // Initial assistant message to start the conversation
-    const initialAssistantMessage = {
-      role: "assistant",
-      content: `Hello! I'm your technical interviewer for today. Let's start with introductions. Can you tell me a bit about yourself and your experience with coding?`
-    }
+    // const initialAssistantMessage = {
+    //   role: "assistant",
+    //   content: `Hello! I'm your technical interviewer for today. Let's start with introductions. Can you tell me a bit about yourself and your experience with coding?`
+    // }
     const messageHistory = [...messages]
 
     // if (messages.length === 0) {

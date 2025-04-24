@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState  } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import Image from 'next/image'
+// import Image from 'next/image'
 import { MicrophoneIcon, SpeakerWaveIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 
 const interviewers = [
@@ -129,7 +129,7 @@ export default function SetupPage() {
                 <h3 className="text-lg font-medium text-white">Test Your Audio</h3>
               </div>
               <p className="text-slate-300 mb-4">
-                Make sure you can hear your interviewer's questions and feedback.
+                Make sure you can hear your interviewers questions and feedback.
               </p>
               <button 
                 onClick={testAudio}
